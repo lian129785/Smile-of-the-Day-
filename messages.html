@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+<meta charset="UTF-8">
+<title>Smile of the Day 💜</title>
+
+<style>
+    body {
+        margin: 0;
+        padding: 0;
+        background: linear-gradient(135deg, #2b0040, #4b007d);
+        font-family: "Poppins", sans-serif;
+        color: white;
+        overflow: hidden;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+    }
+
+    .heart {
+        position: absolute;
+        width: 20px;
+        height: 20px;
+        background: pink;
+        opacity: 0.7;
+        transform: rotate(45deg);
+        animation: float 6s linear infinite;
+    }
+
+    .heart:before,
+    .heart:after {
+        content: "";
+        position: absolute;
+        width: 20px;
+        height: 20px;
+        background: pink;
+        border-radius: 50%;
+    }
+
+    .heart:before { top: -10px; left: 0; }
+    .heart:after { left: 10px; top: 0; }
+
+    @keyframes float {
+        from { transform: translateY(0) rotate(45deg); opacity: 1; }
+        to { transform: translateY(-200px) rotate(45deg); opacity: 0; }
+    }
+
+    .card {
+        background: rgba(255, 255, 255, 0.1);
+        padding: 30px;
+        border-radius: 20px;
+        width: 90%;
+        max-width: 600px;
+        text-align: center;
+        box-shadow: 0 0 20px rgba(200, 100, 255, 0.4);
+        animation: fadeIn 0.6s ease;
+        position: relative;
+        z-index: 10;
+    }
+
+    @keyframes fadeIn {
+        from { opacity: 0; transform: translateY(20px); }
+        to { opacity: 1; transform: translateY(0); }
+    }
+
+    img {
+        width: 250px;
+        border-radius: 15px;
+        margin-top: 20px;
+        box-shadow: 0 0 15px rgba(255, 255, 255, 0.3);
+    }
+
+    .buttons {
+        margin-top: 25px;
+        display: flex;
+        justify-content: space-between;
+    }
+
+    button {
+        background: #a64cff;
+        border: none;
+        padding: 10px 20px;
+        border-radius: 10px;
+        color: white;
+        font-size: 16px;
+        cursor: pointer;
+        transition: 0.2s;
+    }
+
+    button:hover {
+        background: #c27bff;
+        transform: scale(1.05);
+    }
+</style>
+</head>
+<body>
+
+<script>
+for (let i = 0; i < 20; i++) {
+    let h = document.createElement("div");
+    h.classList.add("heart");
+    h.style.left = Math.random() * 100 + "vw";
+    h.style.top = Math.random() * 100 + "vh";
+    h.style.animationDuration = (4 + Math.random() * 4) + "s";
+    document.body.appendChild(h);
+}
+</script>
+
+<div class="card">
+    <h2 id="msg"></h2>
+    <img id="gif" src="" alt="cute gif">
+
+    <div class="buttons">
+        <button onclick="prevMessage()">Previous</button>
+        <button onclick="nextMessage()">Next</button>
+    </div>
+</div>
+
+<script>
+const messages = [
+    { text: "Azi meriți un zâmbet mare, și dacă nu vine singur… ți-l dau eu.", gif: "https://media.tenor.com/De3-eZh6xYQAAAAM/cute-cat.gif" },
+    { text: "Ești genul de persoană care face lumea mai puțin gri. Și mai mult mov.", gif: "https://media.tenor.com/bmxESZp93QYAAAAM/cute-staring-cat.gif" },
+    { text: "Dacă ai uitat azi că ești adorabilă… uite un reminder drăguț.", gif: "https://media.tenor.com/MKkJWYigjycAAAAM/cute-cat-cat-cute.gif" },
+    { text: "Tu ești motivul pentru care cineva zâmbește azi. Spoiler: eu.", gif: "https://media.tenor.com/cHWUMHoUr64AAAAM/love-kisses.gif" },
+    { text: "Azi meriți ceva drăguț. Începe cu mesajul ăsta.", gif: "https://media.tenor.com/Ujr9fdAWM6oAAAAM/puppy.gif" },
+    { text: "Ești mai dulce decât orice pisicuță sleepy.", gif: "https://media.tenor.com/77_ljJhZi90AAAAM/cat-sleepy.gif" },
+    { text: "Ai un fel de magie care face totul mai liniștit.", gif: "https://media.tenor.com/SYsRdiK-T7gAAAAM/hug-anime.gif" },
+    { text: "Ești adorabilă fără să încerci.", gif: "https://media.tenor.com/8JSTqLq5ot8AAAAM/cute-blinking.gif" },
+    { text: "Azi ai voie să fii drăguță, leneșă și adorabilă.", gif: "https://media.tenor.com/WdQ0Hw9sAXcAAAAM/kitty-sleepy.gif" },
+    { text: "Ești motivul pentru care inimioarele se simt acasă.", gif: "https://media.tenor.com/sKBkGEYZcuwAAAAM/purple-hearts-heart-cute.gif" },
+    { text: "Azi meriți un zâmbet mare. Dacă nu vine singur, îți trimit eu unul.", gif: "https://media.tenor.com/g7lP-5YjzDkAAAAM/kitten-stare.gif" },
+    { text: "Ai felul tău special de a face zilele mai frumoase.", gif: "https://media.tenor.com/t7EOQFStBUEAAAAM/tiny-cute.gif" },
+    { text: "Un reminder drăguț: ești minunată exact așa cum ești.", gif: "https://media.tenor.com/R92OWPnb28sAAAAM/cute-cutie.gif" },
+    { text: "Sper să primești azi o îmbrățișare la fel de caldă ca tine.", gif: "https://media.tenor.com/TYvVBj3Fi5AAAAAM/hug.gif" },
+    { text: "Zâmbetul tău ar putea lumina și cea mai înnorată zi.", gif: "https://media.tenor.com/lfDATg4Bhc0AAAAM/happy-cat.gif" },
+    { text: "Azi ai voie să te răsfeți fără niciun motiv.", gif: "https://media.tenor.com/5c9RaitzJmAAAAAM/cat-sleeping.gif" },
+    { text: "Ești o mică rază de soare într-o lume uneori cam gri.", gif: "https://media.tenor.com/TwtXqNlO7FsAAAAM/wow-sparkle-eyes.gif" },
+    { text: "Să nu uiți: prezența ta face lucrurile mai bune.", gif: "https://media.tenor.com/2fx_dzfz9JsAAAAM/love-heart.gif" },
+    { text: "Sper ca ziua ta să fie moale și pufoasă ca o pisicuță somnoroasă.", gif: "https://media.tenor.com/9njA9R096kkAAAAM/sleepy-cat-sleepy.gif" },
+    { text: "Îți trimit o inimioară mică, dar plină de afecțiune.", gif: "https://media.tenor.com/sKBkGEYZcuwAAAAM/purple-hearts-heart-cute.gif" },
+    { text: "Meriți oameni care te fac să te simți în siguranță și iubită.", gif: "https://media.tenor.com/cMpil6ULGjIAAAAM/hug.gif" },
+    { text: "Ești adorabilă chiar și în zilele în care nu te simți așa.", gif: "https://media.tenor.com/De3-eZh6xYQAAAAM/cute-cat.gif" },
+    { text: "Sper ca următorul lucru care te face să zâmbești să apară chiar acum.", gif: "https://media.tenor.com/mq1HEjG7SokAAAAM/puppy.gif" },
+    { text: "Ai o magie liniștită care face totul să pară mai blând.", gif: "https://media.tenor.com/SYsRdiK-T7gAAAAM/hug-anime.gif" },
+    { text: "Ia-ți o pauză. Și pisicuțele drăguțe au nevoie de odihnă.", gif: "https://media.tenor.com/NFo-kBtO0Z0AAAAM/good-night-sleepy.gif" },
+    { text: "Azi îți trimit un pupic virtual și o doză mare de apreciere.", gif: "https://media.tenor.com/cHWUMHoUr64AAAAM/love-kisses.gif" },
+    { text: "Lumea e puțin mai frumoasă pentru că ești și tu în ea.", gif: "https://media.tenor.com/bmxESZp93QYAAAAM/cute-staring-cat.gif" },
+    { text: "Să ai o zi dulce, cu momente mici care-ți încălzesc inima.", gif: "https://media.tenor.com/yubLCCKQ9sUAAAAM/cute-doggy-miniature.gif" },
+    { text: "Nu trebuie să faci nimic special ca să meriți afecțiune.", gif: "https://media.tenor.com/8JSTqLq5ot8AAAAM/cute-blinking.gif" },
+    { text: "Ești genul de persoană care face bine doar fiind acolo.", gif: "https://media.tenor.com/MKkJWYigjycAAAAM/cute-cat-cat-cute.gif" },
+    { text: "Tratează-te azi cu aceeași blândețe pe care o oferi altora.", gif: "https://media.tenor.com/WdQ0Hw9sAXcAAAAM/kitty-sleepy.gif" },
+    { text: "Un zâmbet mic pentru o persoană foarte specială.", gif: "https://media.tenor.com/g7lP-5YjzDkAAAAM/kitten-stare.gif" },
+    { text: "Ai voie să încetinești. Nu trebuie să le faci pe toate azi.", gif: "https://media.tenor.com/77_ljJhZi90AAAAM/cat-sleepy.gif" },
+    { text: "Dacă aș putea, ți-aș trimite o cutie întreagă de îmbrățișări.", gif: "https://media.tenor.com/TYvVBj3Fi5AAAAAM/hug.gif" },
+    { text: "Ești mai prețioasă decât toate inimioarele din univers.", gif: "https://media.tenor.com/sKBkGEYZcuwAAAAM/purple-hearts-heart-cute.gif" },
+    { text: "Amintește-ți azi cât de mult contezi.", gif: "https://media.tenor.com/lfDATg4Bhc0AAAAM/happy-cat.gif" },
+    { text: "Ai un suflet cald și se simte în tot ce faci.", gif: "https://media.tenor.com/R92OWPnb28sAAAAM/cute-cutie.gif" },
+    { text: "Sper să ai parte de ceva frumos, chiar și ceva mărunt.", gif: "https://media.tenor.com/t7EOQFStBUEAAAAM/tiny-cute.gif" },
+    { text: "Un gând drăguț pentru tine: meriți tot binele din lume.", gif: "https://media.tenor.com/2fx_dzfz9JsAAAAM/love-heart.gif" },
+    { text: "Azi e o zi bună să fii blândă cu tine.", gif: "https://media.tenor.com/5c9RaitzJmAAAAAM/cat-sleeping.gif" },
+    { text: "Când zâmbești, parcă și inimioarele dansează.", gif: "https://media.tenor.com/TwtXqNlO7FsAAAAM/wow-sparkle-eyes.gif" },
+    { text: "Ești o combinație perfectă de drăgălășenie și bunătate.", gif: "https://media.tenor.com/Ujr9fdAWM6oAAAAM/puppy.gif" },
+    { text: "Dacă aveai nevoie de un semn să iei o pauză, acesta e.", gif: "https://media.tenor.com/9njA9R096kkAAAAM/sleepy-cat-sleepy.gif" },
+    { text: "Să primești azi aceeași bucurie pe care o dăruiești.", gif: "https://media.tenor.com/cMpil6ULGjIAAAAM/hug.gif" },
+    { text: "Fă-ți loc azi pentru lucrurile care te bucură.", gif: "https://media.tenor.com/De3-eZh6xYQAAAAM/cute-cat.gif" },
+    { text: "O îmbrățișare virtuală, lungă și fără grabă, pentru tine.", gif: "https://media.tenor.com/SYsRdiK-T7gAAAAM/hug-anime.gif" },
+
+    { text: "You make ordinary days feel soft and warm.", gif: "https://media.tenor.com/SYsRdiK-T7gAAAAM/hug-anime.gif" },
+    { text: "Someone out there is smiling because you exist. Today that someone is me.", gif: "https://media.tenor.com/Ujr9fdAWM6oAAAAM/puppy.gif" },
+    { text: "You deserve gentle moments and hugs that last a little longer.", gif: "https://media.tenor.com/TYvVBj3Fi5AAAAAM/hug.gif" },
+    { text: "Your smile could fix a whole day. Mine included.", gif: "https://media.tenor.com/cHWUMHoUr64AAAAM/love-kisses.gif" },
+    { text: "You're sweeter than any sleepy kitten GIF.", gif: "https://media.tenor.com/77_ljJhZi90AAAAM/cat-sleepy.gif" },
+    { text: "If today feels heavy, I'll carry a little piece of it for you.", gif: "https://media.tenor.com/De3-eZh6xYQAAAAM/cute-cat.gif" },
+    { text: "You're the kind of person who makes hearts feel safe.", gif: "https://media.tenor.com/bmxESZp93QYAAAAM/cute-staring-cat.gif" },
+    { text: "You deserve a hug that says 'I'm here.'", gif: "https://media.tenor.com/cMpil6ULGjIAAAAM/hug.gif" },
+    { text: "You're the warmest thought I had today.", gif: "https://media.tenor.com/WdQ0Hw9sAXcAAAAM/kitty-sleepy.gif" },
+    { text: "You're cuter than any anime girl with sparkly eyes.", gif: "https://media.tenor.com/TwtXqNlO7FsAAAAM/wow-sparkle-eyes.gif" },
+    { text: "You deserve a big smile today. If one doesn't show up, here's mine.", gif: "https://media.tenor.com/lfDATg4Bhc0AAAAM/happy-cat.gif" },
+    { text: "You have a lovely way of making ordinary days brighter.", gif: "https://media.tenor.com/g7lP-5YjzDkAAAAM/kitten-stare.gif" },
+    { text: "A tiny reminder: you are wonderful exactly as you are.", gif: "https://media.tenor.com/R92OWPnb28sAAAAM/cute-cutie.gif" },
+    { text: "I hope someone gives you a hug as warm as your heart.", gif: "https://media.tenor.com/SYsRdiK-T7gAAAAM/hug-anime.gif" },
+    { text: "Your smile could brighten even the cloudiest day.", gif: "https://media.tenor.com/mq1HEjG7SokAAAAM/puppy.gif" },
+    { text: "You're allowed to treat yourself for absolutely no reason.", gif: "https://media.tenor.com/5c9RaitzJmAAAAAM/cat-sleeping.gif" },
+    { text: "You're a little ray of sunshine on a cloudy day.", gif: "https://media.tenor.com/8JSTqLq5ot8AAAAM/cute-blinking.gif" },
+    { text: "The world is a little better with you in it.", gif: "https://media.tenor.com/MKkJWYigjycAAAAM/cute-cat-cat-cute.gif" },
+    { text: "I hope your day feels as soft and cozy as a sleepy kitten.", gif: "https://media.tenor.com/9njA9R096kkAAAAM/sleepy-cat-sleepy.gif" },
+    { text: "Sending you one tiny heart packed with lots of affection.", gif: "https://media.tenor.com/sKBkGEYZcuwAAAAM/purple-hearts-heart-cute.gif" },
+    { text: "You deserve people who make you feel safe and loved.", gif: "https://media.tenor.com/TYvVBj3Fi5AAAAAM/hug.gif" },
+    { text: "You're adorable, even on the days you don't feel like it.", gif: "https://media.tenor.com/t7EOQFStBUEAAAAM/tiny-cute.gif" },
+    { text: "May something lovely make you smile very soon.", gif: "https://media.tenor.com/yubLCCKQ9sUAAAAM/cute-doggy-miniature.gif" },
+    { text: "You have a gentle kind of magic that makes life feel softer.", gif: "https://media.tenor.com/NFo-kBtO0Z0AAAAM/good-night-sleepy.gif" },
+    { text: "Even cute kittens know that rest is important. Take a break.", gif: "https://media.tenor.com/77_ljJhZi90AAAAM/cat-sleepy.gif" },
+    { text: "Here's a virtual kiss and a little reminder that you're appreciated.", gif: "https://media.tenor.com/cHWUMHoUr64AAAAM/love-kisses.gif" },
+    { text: "Your presence makes life sweeter for the people around you.", gif: "https://media.tenor.com/bmxESZp93QYAAAAM/cute-staring-cat.gif" },
+    { text: "Wishing you a day full of little things that warm your heart.", gif: "https://media.tenor.com/2fx_dzfz9JsAAAAM/love-heart.gif" },
+    { text: "You don't have to do anything special to deserve kindness.", gif: "https://media.tenor.com/De3-eZh6xYQAAAAM/cute-cat.gif" },
+    { text: "You make things better just by being there.", gif: "https://media.tenor.com/lfDATg4Bhc0AAAAM/happy-cat.gif" },
+    { text: "Be as kind to yourself as you are to everyone else.", gif: "https://media.tenor.com/WdQ0Hw9sAXcAAAAM/kitty-sleepy.gif" },
+    { text: "A little smile for a very special person.", gif: "https://media.tenor.com/g7lP-5YjzDkAAAAM/kitten-stare.gif" },
+    { text: "It's okay to slow down. You don't have to do it all today.", gif: "https://media.tenor.com/5c9RaitzJmAAAAAM/cat-sleeping.gif" },
+    { text: "If I could, I'd send you a whole box of hugs.", gif: "https://media.tenor.com/cMpil6ULGjIAAAAM/hug.gif" },
+    { text: "You're more precious than all the little hearts in the universe.", gif: "https://media.tenor.com/sKBkGEYZcuwAAAAM/purple-hearts-heart-cute.gif" },
+    { text: "Remember today how much you matter.", gif: "https://media.tenor.com/R92OWPnb28sAAAAM/cute-cutie.gif" },
+    { text: "You have such a warm heart, and it shows in everything you do.", gif: "https://media.tenor.com/8JSTqLq5ot8AAAAM/cute-blinking.gif" },
+    { text: "I hope something lovely, even something small, happens today.", gif: "https://media.tenor.com/t7EOQFStBUEAAAAM/tiny-cute.gif" },
+    { text: "A sweet thought for you: you deserve all the good things.", gif: "https://media.tenor.com/2fx_dzfz9JsAAAAM/love-heart.gif" },
+    { text: "Today is a good day to be gentle with yourself.", gif: "https://media.tenor.com/9njA9R096kkAAAAM/sleepy-cat-sleepy.gif" },
+    { text: "When you smile, it feels like all the little hearts dance.", gif: "https://media.tenor.com/TwtXqNlO7FsAAAAM/wow-sparkle-eyes.gif" },
+    { text: "You're the perfect mix of kindness and cuteness.", gif: "https://media.tenor.com/MKkJWYigjycAAAAM/cute-cat-cat-cute.gif" },
+    { text: "If you needed a sign to take a break, this is it.", gif: "https://media.tenor.com/NFo-kBtO0Z0AAAAM/good-night-sleepy.gif" },
+    { text: "May you receive the same joy you give to others.", gif: "https://media.tenor.com/Ujr9fdAWM6oAAAAM/puppy.gif" },
+    { text: "Make a little room today for the things that make you happy.", gif: "https://media.tenor.com/mq1HEjG7SokAAAAM/puppy.gif" },
+    { text: "Sending you a long, cozy hug with no rush to let go.", gif: "https://media.tenor.com/SYsRdiK-T7gAAAAM/hug-anime.gif" },
+
+    { text: "Sei una piccola luce che rende tutto più bello.", gif: "https://media.tenor.com/bmxESZp93QYAAAAM/cute-staring-cat.gif" },
+    { text: "Meriti dolcezza, calma e qualcuno che ti stringa forte.", gif: "https://media.tenor.com/SYsRdiK-T7gAAAAM/hug-anime.gif" },
+    { text: "Quando sorridi tu, sembra che il mondo respiri meglio.", gif: "https://media.tenor.com/sKBkGEYZcuwAAAAM/purple-hearts-heart-cute.gif" },
+    { text: "Oggi sei la parte più bella della mia giornata.", gif: "https://media.tenor.com/De3-eZh6xYQAAAAM/cute-cat.gif" },
+    { text: "Sei dolce come un abbraccio che non vuoi mai lasciare.", gif: "https://media.tenor.com/TYvVBj3Fi5AAAAAM/hug.gif" },
+    { text: "Sei più tenera di qualsiasi gattino assonnato.", gif: "https://media.tenor.com/77_ljJhZi90AAAAM/cat-sleepy.gif" },
+    { text: "Se oggi è pesante, ne porto io un pezzetto.", gif: "https://media.tenor.com/Ujr9fdAWM6oAAAAM/puppy.gif" },
+    { text: "Sei il tipo di persona che fa sentire il cuore al sicuro.", gif: "https://media.tenor.com/cHWUMHoUr64AAAAM/love-kisses.gif" },
+    { text: "Meriti un abbraccio che dice 'ci sono'.", gif: "https://media.tenor.com/cMpil6ULGjIAAAAM/hug.gif" },
+    { text: "Sei il pensiero più caldo che ho avuto oggi.", gif: "https://media.tenor.com/WdQ0Hw9sAXcAAAAM/kitty-sleepy.gif" },
+    { text: "Oggi meriti un grande sorriso. Se non arriva, te ne mando uno io.", gif: "https://media.tenor.com/lfDATg4Bhc0AAAAM/happy-cat.gif" },
+    { text: "Hai un modo speciale di rendere più belle le giornate normali.", gif: "https://media.tenor.com/g7lP-5YjzDkAAAAM/kitten-stare.gif" },
+    { text: "Un piccolo promemoria: sei meravigliosa proprio così come sei.", gif: "https://media.tenor.com/R92OWPnb28sAAAAM/cute-cutie.gif" },
+    { text: "Spero che oggi tu riceva un abbraccio caldo come il tuo cuore.", gif: "https://media.tenor.com/SYsRdiK-T7gAAAAM/hug-anime.gif" },
+    { text: "Il tuo sorriso potrebbe illuminare anche la giornata più grigia.", gif: "https://media.tenor.com/mq1HEjG7SokAAAAM/puppy.gif" },
+    { text: "Oggi puoi coccolarti senza nessun motivo particolare.", gif: "https://media.tenor.com/5c9RaitzJmAAAAAM/cat-sleeping.gif" },
+    { text: "Sei un piccolo raggio di sole in una giornata nuvolosa.", gif: "https://media.tenor.com/TwtXqNlO7FsAAAAM/wow-sparkle-eyes.gif" },
+    { text: "Il mondo è un po’ più bello perché ci sei anche tu.", gif: "https://media.tenor.com/8JSTqLq5ot8AAAAM/cute-blinking.gif" },
+    { text: "Spero che la tua giornata sia morbida e tranquilla come un gattino assonnato.", gif: "https://media.tenor.com/9njA9R096kkAAAAM/sleepy-cat-sleepy.gif" },
+    { text: "Ti mando un cuoricino pieno di affetto.", gif: "https://media.tenor.com/sKBkGEYZcuwAAAAM/purple-hearts-heart-cute.gif" },
+    { text: "Meriti persone che ti fanno sentire al sicuro e amata.", gif: "https://media.tenor.com/TYvVBj3Fi5AAAAAM/hug.gif" },
+    { text: "Sei adorabile anche nei giorni in cui non te ne accorgi.", gif: "https://media.tenor.com/t7EOQFStBUEAAAAM/tiny-cute.gif" },
+    { text: "Spero che qualcosa di bello ti faccia sorridere prestissimo.", gif: "https://media.tenor.com/yubLCCKQ9sUAAAAM/cute-doggy-miniature.gif" },
+    { text: "Hai una magia gentile che rende tutto più sereno.", gif: "https://media.tenor.com/NFo-kBtO0Z0AAAAM/good-night-sleepy.gif" },
+    { text: "Anche i gattini sanno che riposare è importante. Fai una pausa.", gif: "https://media.tenor.com/77_ljJhZi90AAAAM/cat-sleepy.gif" },
+    { text: "Un bacio virtuale e un piccolo promemoria: sei speciale.", gif: "https://media.tenor.com/cHWUMHoUr64AAAAM/love-kisses.gif" },
+    { text: "La tua presenza rende più dolce la vita di chi ti sta vicino.", gif: "https://media.tenor.com/bmxESZp93QYAAAAM/cute-staring-cat.gif" },
+    { text: "Ti auguro una giornata piena di piccole cose che scaldano il cuore.", gif: "https://media.tenor.com/2fx_dzfz9JsAAAAM/love-heart.gif" },
+    { text: "Non devi fare nulla di speciale per meritare gentilezza.", gif: "https://media.tenor.com/De3-eZh6xYQAAAAM/cute-cat.gif" },
+    { text: "Rendi tutto migliore semplicemente essendoci.", gif: "https://media.tenor.com/lfDATg4Bhc0AAAAM/happy-cat.gif" },
+    { text: "Sii gentile con te stessa come lo sei con gli altri.", gif: "https://media.tenor.com/WdQ0Hw9sAXcAAAAM/kitty-sleepy.gif" },
+    { text: "Un piccolo sorriso per una persona davvero speciale.", gif: "https://media.tenor.com/g7lP-5YjzDkAAAAM/kitten-stare.gif" },
+    { text: "Puoi rallentare. Non devi fare tutto oggi.", gif: "https://media.tenor.com/5c9RaitzJmAAAAAM/cat-sleeping.gif" },
+    { text: "Se potessi, ti manderei una scatola intera di abbracci.", gif: "https://media.tenor.com/cMpil6ULGjIAAAAM/hug.gif" },
+    { text: "Sei più preziosa di tutti i cuoricini dell’universo.", gif: "https://media.tenor.com/sKBkGEYZcuwAAAAM/purple-hearts-heart-cute.gif" },
+    { text: "Ricordati oggi quanto sei importante.", gif: "https://media.tenor.com/R92OWPnb28sAAAAM/cute-cutie.gif" },
+    { text: "Hai un cuore caldo, e si vede in tutto quello che fai.", gif: "https://media.tenor.com/8JSTqLq5ot8AAAAM/cute-blinking.gif" },
+    { text: "Spero che oggi succeda qualcosa di bello, anche di piccolo.", gif: "https://media.tenor.com/t7EOQFStBUEAAAAM/tiny-cute.gif" },
+    { text: "Un pensiero dolce per te: meriti tutte le cose belle.", gif: "https://media.tenor.com/2fx_dzfz9JsAAAAM/love-heart.gif" },
+    { text: "Oggi è un buon giorno per essere gentile con te stessa.", gif: "https://media.tenor.com/9njA9R096kkAAAAM/sleepy-cat-sleepy.gif" },
+    { text: "Quando sorridi, sembra che tutti i cuoricini danzino.", gif: "https://media.tenor.com/TwtXqNlO7FsAAAAM/wow-sparkle-eyes.gif" },
+    { text: "Sei il mix perfetto di dolcezza e gentilezza.", gif: "https://media.tenor.com/MKkJWYigjycAAAAM/cute-cat-cat-cute.gif" },
+    { text: "Se avevi bisogno di un segnale per fare una pausa, eccolo.", gif: "https://media.tenor.com/NFo-kBtO0Z0AAAAM/good-night-sleepy.gif" },
+    { text: "Spero che tu riceva la stessa gioia che regali agli altri.", gif: "https://media.tenor.com/Ujr9fdAWM6oAAAAM/puppy.gif" },
+    { text: "Fai un po’ di spazio oggi per le cose che ti fanno felice.", gif: "https://media.tenor.com/mq1HEjG7SokAAAAM/puppy.gif" },
+    { text: "Ti mando un abbraccio lungo e morbido, senza fretta di lasciarti.", gif: "https://media.tenor.com/SYsRdiK-T7gAAAAM/hug-anime.gif" }
+];
+
+let history = [];
+let index = -1;
+
+function showMessage(i) {
+    document.getElementById("msg").innerText = history[i].text;
+    document.getElementById("gif").src = history[i].gif;
+}
+
+function nextMessage() {
+    const randomIndex = Math.floor(Math.random() * messages.length);
+    history.push(messages[randomIndex]);
+    index = history.length - 1;
+    showMessage(index);
+}
+
+function prevMessage() {
+    if (index > 0) {
+        index--;
+        showMessage(index);
+    }
+}
+
+nextMessage();
+</script>
+
+</body>
+</html>

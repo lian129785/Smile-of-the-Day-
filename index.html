@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+<meta charset="UTF-8">
+<title>Welcome 💜</title>
+<style>
+    body {
+        margin: 0;
+        padding: 0;
+        background: linear-gradient(135deg, #2b0040, #4b007d);
+        font-family: "Poppins", sans-serif;
+        color: white;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+    }
+
+    .box {
+        background: rgba(255, 255, 255, 0.1);
+        padding: 30px;
+        border-radius: 20px;
+        width: 90%;
+        max-width: 400px;
+        text-align: center;
+        box-shadow: 0 0 20px rgba(200, 100, 255, 0.4);
+    }
+
+    input {
+        width: 80%;
+        padding: 10px;
+        border-radius: 10px;
+        border: none;
+        margin-top: 15px;
+        font-size: 16px;
+    }
+
+    button {
+        margin-top: 20px;
+        background: #a64cff;
+        border: none;
+        padding: 10px 20px;
+        border-radius: 10px;
+        color: white;
+        font-size: 16px;
+        cursor: pointer;
+        transition: 0.2s;
+    }
+
+    button:hover {
+        background: #c27bff;
+        transform: scale(1.05);
+    }
+
+    .hint {
+        margin-top: 15px;
+        font-size: 14px;
+        opacity: 0.8;
+    }
+</style>
+</head>
+<body>
+
+<div class="box">
+    <h2>Enter Password 💜</h2>
+    <input type="password" id="pass" placeholder="Password">
+    <button onclick="checkPass()">Enter</button>
+    <p class="hint">Hint: Cum îmi zici mie când eu îți zic frumoaso?</p>
+</div>
+
+<script>
+function checkPass() {
+    const p = document.getElementById("pass").value;
+    if (p === "uratule") {
+        window.location.href = "messages.html";
+    } else {
+        alert("Parola greșită, Pisoiaș.");
+    }
+}
+</script>
+
+</body>
+</html>
